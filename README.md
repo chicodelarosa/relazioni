@@ -36,6 +36,19 @@ Relationships currently supports 8 different association functions for investiga
 6. One Continuous and One Binary
    * Point-biserial Correlation
 
+## Requirements
+    scipy
+    numpy
+    pandas
+    scikit-learn
+
+## Installation
+### Installing via Git
+    python -m pip install git+https://github.com/chicodelarosa/relationships.git
+
+### Installing via setup.py
+    python setup.py install
+
 ## Example
     import numpy as np
     import relationships
