@@ -1,0 +1,46 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-added-large-files # Prevent giant files from being committed. In kB.
+        args: [--maxkb=1024]
+  - repo: https://github.com/pycqa/isort
+    rev: 5.7.0
+    hooks:
+      - id: isort # Sorts imports. "import ..." imports go first in alphabetical order, "from ... import ..." go after in alphabetical order.
+        name: isort (python)
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.10.0
+    hooks:
+      - id: pyupgrade # Automatically upgrade syntax for newer versions of the language.
+        args: [--py38-plus]
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+      - id: black # A Python code formatter.
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.4
+    hooks:
+      - id: flake8 # Tool for style guide enforcement (https://flake8.pycqa.org/). Unused, undefined, repeated keys in dict, etc.
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.812
+    hooks:
+      - id: mypy # Checks programs that have type annotations conforming to PEP 484.
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 5.1.1
+    hooks:
+      - id: pydocstyle # Checks compliance with Python docstring conventions.
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 0.5.9
+    hooks: # Same checks for  Jupyter Notebooks.
+      - id: nbqa-isort
+        additional_dependencies: [isort==5.7.0]
+      - id: nbqa-pyupgrade
+        additional_dependencies: [pyupgrade==2.10.0]
+      - id: nbqa-black
+        additional_dependencies: [black==20.8b1]
+      - id: nbqa-flake8
+        args: ["--extend-ignore=E402"]
+        additional_dependencies: [flake8==3.8.4]
+      - id: nbqa-mypy
+        additional_dependencies: ["mypy==v0.812"]
