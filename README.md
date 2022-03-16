@@ -5,7 +5,7 @@ Documentation: https://chicodelarosa.com/relationships \
 Source code: https://github.com/chicodelarosa/relationships \
 Bug reports: https://github.com/chicodelarosa/relationships/issues
 
-It provides easy to use functions for measuring the correlation between variables of the following natures:
+It provides easy to use functions for measuring the relationship between variables of the following natures:
 
 ### Two Continuous
 A variable that can reasonably take on any value within a range. Examples of continuous variables include height, weight, exam scores, income, salary, etc.
