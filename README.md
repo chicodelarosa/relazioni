@@ -1,8 +1,8 @@
 # Relationships
 Relationships A lightweight package for strength of the relationship between variables analysis.
 
-Documentation: https://chicodelarosa.com/relationships
-Source code: https://github.com/chicodelarosa/relationships
+Documentation: https://chicodelarosa.com/relationships \
+Source code: https://github.com/chicodelarosa/relationships \
 Bug reports: https://github.com/chicodelarosa/relationships/issues
 
 It provides easy to use functions for measuring the correlation between variables of the following natures:
@@ -37,20 +37,18 @@ Relationships currently supports 8 different association functions for investiga
    * Point-biserial Correlation
 
 ## Example
-    >>> import numpy as np
-    >>> import relationships
+    import numpy as np
+    import relationships
     
-    >>> v1, v2 = np.array([1, 1, 2]), np.array([1, 1, 2])
+    v1, v2 = np.array([1, 1, 2]), np.array([1, 1, 2])
 
-    >>> matth_corr = relationships.matthews_corr(v1, v2)
-    >>> print(matth_corr)
-    1.0
+    matth_corr = relationships.matthews_corr(v1, v2)
+    print(matth_corr) # 1.0
 
-    >>> v1, v2 = np.array([1, 1, 2]), np.array([2, 1, 2])
+    v1, v2 = np.array([1, 1, 2]), np.array([2, 1, 2])
 
-    >>> matth_corr = matthews_corr(v1, v2)
-    >>> print(matth_corr)
-    0.5
+    matth_corr = matthews_corr(v1, v2)
+    print(matth_corr) # 0.5
 
 ## Call for Contributions
 The Relationships project welcomes your expertise and enthusiasm!
