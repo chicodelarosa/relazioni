@@ -1,9 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-setup.py
-relationships/relationships.egg-info/PKG-INFO
-relationships/relationships.egg-info/SOURCES.txt
-relationships/relationships.egg-info/dependency_links.txt
-relationships/relationships.egg-info/requires.txt
-relationships/relationships.egg-info/top_level.txt
