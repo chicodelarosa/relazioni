@@ -1,40 +1,78 @@
+"""Module for the computation of several association metrics between variables."""
+
 import numpy as np
 from pandas import crosstab
-
-from scipy.stats import chi2_contingency, kendalltau, linregress, pointbiserialr, spearmanr
+from scipy.stats import (
+    chi2_contingency,
+    kendalltau,
+    linregress,
+    pointbiserialr,
+    spearmanr,
+)
 from sklearn.metrics import matthews_corrcoef
 
+
 def check_variables(v1: np.ndarray, v2: np.ndarray) -> None:
+    """
+    Check that variables are consistent in terms of their data structure type and dimensions.
+
+    Parameters
+    ----------
+    v1 : array_like
+        A 1-D array containing multiple variables and observations.
+    v2 : array_like
+        A 1-D array containing multiple variables and observations.
+    """
     if type(v1) != np.ndarray:
-        raise ValueError(f'v1\'s type = {type(v1)} must be of type np.ndarray.')
+        raise ValueError(f"v1's type = {type(v1)} must be of type np.ndarray.")
 
     if type(v2) != np.ndarray:
-        raise ValueError(f'v2\'s type = {type(v2)} must be of type np.ndarray.')
+        raise ValueError(f"v2's type = {type(v2)} must be of type np.ndarray.")
 
     if len(v1) != len(v2):
-        raise ValueError(f'Length of v1 = {len(v1)} and v2 = {len(v2)} must be equal.')
+        raise ValueError(f"Length of v1 = {len(v1)} and v2 = {len(v2)} must be equal.")
 
     if v1.ndim != 1:
-        raise ValueError(f'Number of array dimensions of v1 = {v1.ndim} mus be equal to 1')
+        raise ValueError(
+            f"Number of array dimensions of v1 = {v1.ndim} mus be equal to 1"
+        )
 
     if v2.ndim != 1:
-        raise ValueError(f'Number of array dimensions of v2 = {v2.ndim} mus be equal to 1')
+        raise ValueError(
+            f"Number of array dimensions of v2 = {v2.ndim} mus be equal to 1"
+        )
+
 
 def check_binary_categorical(v1: np.ndarray, v2: np.ndarray) -> None:
+    """
+    Check that variables are consistent in terms of their data structure type, dimensions, and type.
+
+    Parameters
+    ----------
+    v1 : array_like
+        A 1-D array containing multiple variables and observations.
+    v2 : array_like
+        A 1-D array containing multiple variables and observations.
+    """
     check_variables(v1, v2)
 
     v1_unique = np.unique(v1)
 
     if len(v1_unique) != 2:
-        raise ValueError(f'v1 contains more than one or two unique values ({v1_unique}).')
-    
+        raise ValueError(
+            f"v1 contains more than one or two unique values ({v1_unique})."
+        )
+
     v2_unique = np.unique(v2)
 
     if len(v2_unique) != 2:
-        raise ValueError(f'v2 contains more than one two unique values ({v2_unique}).')
+        raise ValueError(f"v2 contains more than one two unique values ({v2_unique}).")
+
 
 def theils_U(v1: np.ndarray, v2: np.ndarray) -> float:
     """
+    Compute Theil's U2.
+
     What is Theils's U?
     Theils's U is used to understand the strength of the relationship between two variables.
     To use it, your variables of interest should be categorical with two or more unique
@@ -73,29 +111,35 @@ def theils_U(v1: np.ndarray, v2: np.ndarray) -> float:
     """
     check_variables(v1, v2)
 
-    out = np.sqrt(np.sum(((v1[1:] - v2[1:]) / v2[:-1]) ** 2)) / \
-        np.sqrt(np.sum(((v2[1:] - v2[:-1]) / v2[:-1]) ** 2))
+    out = np.sqrt(np.sum(((v1[1:] - v2[1:]) / v2[:-1]) ** 2)) / np.sqrt(
+        np.sum(((v2[1:] - v2[:-1]) / v2[:-1]) ** 2)
+    )
 
     return out
 
+
 def matthews_corr(v1: np.ndarray, v2: np.ndarray) -> float:
     """
-    What is the Phi Coefficient or Matthews Correlation Coefficient?
-    The Phi Coefficient or Matthews Correlation Coefficient is used to understand the strength of the relationship between two
-    variables. To use it, your variables of interest should be binary.
+    Compute Matthew's correlation coefficient (phi coefficient).
 
-    Assumptions for the Phi Coefficient or Matthews Correlation Coefficient
+    What is the Phi Coefficient or Matthew's Correlation Coefficient?
+    The Phi Coefficient or Matthew's Correlation Coefficient is used to understand the
+    strength of the relationship between two variables. To use it, your variables of
+    interest should be binary.
+
+    Assumptions for the Phi Coefficient or Matthew's Correlation Coefficient
     Every statistical method has assumptions. Assumptions mean that your data must satisfy
     certain properties in order for statistical method results to be accurate.
 
-    The assumptions for the Phi Coefficient or Matthews Correlation Coefficient include:
+    The assumptions for the Phi Coefficient or Matthew's Correlation Coefficient include:
     1. Binary variables
     For this test, your two variables must be binary. Binary means that your variable is a
     category with only two possible values. Some good examples of binary variables include
     gender (male/female) or any True/False or Yes/No variable.
 
-    When to use the Phi Coefficient or Matthews Correlation Coefficient?
-    You should use the Phi Coefficient or Matthews Correlation Coefficient in the following scenario:
+    When to use the Phi Coefficient or Matthew's Correlation Coefficient?
+    You should use the Phi Coefficient or Matthew's Correlation Coefficient in the following
+    scenario:
 
     1. You want to know the relationship between two variables
     2. Your variables of interest are binary
@@ -116,13 +160,16 @@ def matthews_corr(v1: np.ndarray, v2: np.ndarray) -> float:
         Matthews's correlation coefficient.
     """
     check_binary_categorical(v1, v2)
-    
-    out = matthews_corrcoef(v1,v2)
+
+    out = matthews_corrcoef(v1, v2)
 
     return out
 
+
 def cramers_v(v1: np.ndarray, v2: np.ndarray) -> float:
     """
+    Compute Cramér's V correlation coefficient.
+
     What is Cramér's V?
     Cramér's V is used to understand the strength of the relationship between two variables.
     To use it, your variables of interest should be categorical with two or more unique
@@ -162,17 +209,20 @@ def cramers_v(v1: np.ndarray, v2: np.ndarray) -> float:
     check_variables(v1, v2)
 
     ct = crosstab(v1, v2).values
-    
+
     X2 = chi2_contingency(ct)[0]
     n = ct.sum().sum()
-    dof = min(ct.shape)-1
+    dof = min(ct.shape) - 1
 
     out = np.sqrt(X2 / (n * dof))
-    
+
     return out
+
 
 def kendalls_corr(v1: np.ndarray, v2: np.ndarray) -> float:
     """
+    Compute Kendall’s correlation coefficient.
+
     What is Kendall’s Tau?
     Kendall’s Tau is used to understand the strength of the relationship between two
     variables. Your variables of interest can be continuous or ordinal and should have a
@@ -207,7 +257,7 @@ def kendalls_corr(v1: np.ndarray, v2: np.ndarray) -> float:
     1. You want to know the relationship between two variables
     2. Your variables of interest are continuous with outliers or ordinal
     3. You have only two variables
-    
+
     (Relationship >> At Least One Ordinal)
 
     Parameters
@@ -228,8 +278,11 @@ def kendalls_corr(v1: np.ndarray, v2: np.ndarray) -> float:
 
     return out
 
+
 def spearmans_corr(v1, v2):
     """
+    Compute Spearman's rank correlation coefficient.
+
     What is Spearman's Rank Correlation?
     Spearman's Rank Correlation is used to understand the strength of the relationship between two
     variables. Your variables of interest can be continuous or ordinal and should have a
@@ -264,7 +317,7 @@ def spearmans_corr(v1, v2):
     1. You want to know the relationship between two variables
     2. Your variables of interest are continuous with outliers or ordinal
     3. You have only two variables
-    
+
     (Relationship >> At Least One Ordinal)
 
     Parameters
@@ -285,8 +338,11 @@ def spearmans_corr(v1, v2):
 
     return out
 
+
 def pointbiserial_corr(v1, v2):
     """
+    Compute Spearman's rank correlation cofficient.
+
     What is Point-Biserial Correlation?
     Point-biserial correlation is used to understand the strength of the relationship
     between two variables. Your variables of interest should include one continuous and one
@@ -305,19 +361,19 @@ def pointbiserial_corr(v1, v2):
     Binary means that your variable is a category with only two possible values. Some good
     examples of binary variables include smoker(yes/no), sex(male/female) or any True/False
     or 0/1 variable.
-    
+
     2. Normally Distributed
     The variable that you care about must be spread out in a normal way. In statistics, this
     is called being normally distributed (aka it must look like a bell curve when you graph
     the data). Only use Point-Biserial Correlation on your data if the variable you care about
     is normally distributed.
-    
+
     3. No Outliers
     The variables that you care about must not contain outliers. Point-Biserial correlation is
     sensitive to outliers, or data points that have unusually large or small values. You can
     tell if your variables have outliers by plotting them and observing if any points are far
     from all other points.
-    
+
     4. Equal Variances
     One of the assumptions of Point-Biserial correlation is that there is similar spread
     between the two groups of the binary variable. You can check for this assumption by
@@ -344,7 +400,7 @@ def pointbiserial_corr(v1, v2):
     -------
     out : float
         Point-Biserial correlation coefficient.
-    
+
     """
     check_variables(v1, v2)
 
@@ -352,8 +408,11 @@ def pointbiserial_corr(v1, v2):
 
     return out
 
+
 def pearson_corr(v1, v2):
     """
+    Compute Pearson's correlation coefficient.
+
     What is Pearson Correlation?
     Pearson Correlation is used to understand the strength of the relationship between two
     variables. Your variables of interest should be continuous, be normally distributed, be
@@ -361,7 +420,8 @@ def pearson_corr(v1, v2):
     spread across their individual ranges.
 
     Assumptions for Pearson Correlation
-    Every statistical method has assumptions. Assumptions mean that your data must satisfy certain properties in order for statistical method results to be accurate.
+    Every statistical method has assumptions. Assumptions mean that your data must satisfy
+    certain properties in order for statistical method results to be accurate.
 
     The assumptions for Pearson Correlation include:
     1. Continuous
@@ -374,18 +434,18 @@ def pearson_corr(v1, v2):
     this is called being normally distributed (aka it must look like a bell curve when
     you graph the data). Only use an independent samples t-test with your data if the
     variable you care about is normally distributed.
-    
+
     3. Linearity
     The variables that you care about must be related linearly. This means that if you
     plot the variables, you will be able to draw a straight line that fits the shape of
     the data.
-    
+
     4. No Outliers
     The variables that you care about must not contain outliers. Pearson’s correlation is
     sensitive to outliers, or data points that have unusually large or small values. You
     can tell if your variables have outliers by plotting them and observing if any points
     are far from all other points.
-    
+
     5. Similar Spread Across Range
     In statistics this is called homoscedasticity, or making sure the variables have a
     similar spread across their ranges.
@@ -396,7 +456,7 @@ def pearson_corr(v1, v2):
     1. You want to know the relationship between two variables
     2. Your variables of interest are continuous
     3. You have no covariates
-    
+
     (Relationship >> Two Continuous >> No Covariates)
 
     Parameters
@@ -410,7 +470,7 @@ def pearson_corr(v1, v2):
     -------
     out : float
         Pearson correlation coefficient.
-    
+
     """
     check_variables(v1, v2)
 
@@ -418,8 +478,11 @@ def pearson_corr(v1, v2):
 
     return out
 
-def partial_corr(v1, v2):
+
+def partial_corr(v1, v2, v3):
     """
+    Compute partial correlation coefficient.
+
     What is Partial Correlation?
     Partial Correlation is used to understand the strength of the relationship between
     two variables while accounting for the effects of one or more other variables.
@@ -442,22 +505,22 @@ def partial_corr(v1, v2):
     this is called being normally distributed (aka it must look like a bell curve when
     you graph the data). Only use an independent samples t-test with your data if the
     variable you care about is normally distributed.
-    
+
     3. Linearity
     The variables that you care about must be related linearly. This means that if you
     plot the variables, you will be able to draw a straight line that fits the shape of
     the data.
-    
+
     4. No Outliers
     The variables that you care about must not contain outliers. Pearson’s correlation is
     sensitive to outliers, or data points that have unusually large or small values. You
     can tell if your variables have outliers by plotting them and observing if any points
     are far from all other points.
-    
+
     5. Similar Spread Across Range
     In statistics this is called homoscedasticity, or making sure the variables have a
     similar spread across their ranges.
-    
+
     6. Covariate(s)
     You should only perform partial correlation if you have one or more covariates. A
     covariate is a variable whose effects you want to remove when examining the variable
@@ -482,6 +545,8 @@ def partial_corr(v1, v2):
         A 1-D array containing multiple variables and observations.
     v2 : array_like
         A 1-D array containing multiple variables and observations.
+    v3 : array_like
+        A 1-D array containing multiple variables and observations for the covariate.
 
     Returns
     -------
@@ -489,7 +554,16 @@ def partial_corr(v1, v2):
         R or the root means square of the coefficient of determination.
     """
     check_variables(v1, v2)
-    
-    out = linregress(v1, v2).rvalue
+    check_variables(v2, v3)
+
+    slope_v1_v3, intercept_v1_v3, r_v1_v3, p_v1_v3, se_v1_v3 = linregress(v3, v1)
+
+    res_v1_v3 = v1 - (intercept_v1_v3 + slope_v1_v3 * v3)
+
+    slope_v2_v3, intercept_v2_v3, r_v2_v3, p_v2_v3, se_v2_v3 = linregress(v3, v2)
+
+    res_v2_v3 = v2 - (intercept_v2_v3 + slope_v2_v3 * v3)
+
+    out = np.corrcoef(res_v1_v3, res_v2_v3)[0, 1]
 
     return out

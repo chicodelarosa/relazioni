@@ -20,7 +20,6 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "relationships"},
     packages=setuptools.find_packages(where="relationships"),
     python_requires=">=3.6",
     install_requires=[
