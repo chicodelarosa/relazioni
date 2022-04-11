@@ -51,16 +51,16 @@ Relationships currently supports 8 different association functions for investiga
 
 ## Example
     import numpy as np
-    import relationships
+    from relationships import associations
     
     v1, v2 = np.array([1, 1, 2]), np.array([1, 1, 2])
 
-    matth_corr = relationships.matthews_corr(v1, v2)
+    matth_corr = associations.matthews_corr(v1, v2)
     print(matth_corr) # 1.0
 
     v1, v2 = np.array([1, 1, 2]), np.array([2, 1, 2])
 
-    matth_corr = matthews_corr(v1, v2)
+    matth_corr = associations.matthews_corr(v1, v2)
     print(matth_corr) # 0.5
 
 ## Call for Contributions
