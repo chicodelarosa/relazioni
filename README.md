@@ -1,5 +1,5 @@
 # Relationships
-Relationships A lightweight package for strength of the relationship between variables analysis.
+Relationships is a lightweight package for strength of the relationship between variables analysis.
 
 Documentation: https://chicodelarosa.com/relationships \
 Source code: https://github.com/chicodelarosa/relationships \
