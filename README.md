@@ -57,7 +57,7 @@ Relazioni currently supports 8 different association functions for investigating
 
 ## Example
     import numpy as np
-    from relationships import associations
+    from relazioni import associations
     
     v1, v2 = np.array([1, 1, 2]), np.array([1, 1, 2])
 
