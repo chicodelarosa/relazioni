@@ -43,6 +43,9 @@ Relazioni currently supports 8 different association functions for investigating
     scikit-learn
 
 ## Installation
+### Installing via pypi
+    pip install relazioni
+
 ### Installing via pip
     pip install .
 
