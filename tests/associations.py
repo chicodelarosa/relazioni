@@ -1,5 +1,5 @@
 import numpy as np
-from relationships import associations
+from relazioni import associations
 import unittest
 
 class TestAssociations(unittest.TestCase):

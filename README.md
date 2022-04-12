@@ -1,9 +1,9 @@
-# Relationships
-Relationships is a lightweight package for strength of the relationship between variables analysis.
+# Relazioni
+Relazioni is a lightweight package for strength of the relationship between variables analysis.
 
-Documentation: https://chicodelarosa.com/relationships \
-Source code: https://github.com/chicodelarosa/relationships \
-Bug reports: https://github.com/chicodelarosa/relationships/issues
+Documentation: https://chicodelarosa.com/relazioni \
+Source code: https://github.com/chicodelarosa/relazioni \
+Bug reports: https://github.com/chicodelarosa/relazioni/issues
 
 It provides easy to use functions for measuring the relationship between variables of the following natures:
 
@@ -19,7 +19,7 @@ A variable with categories that have an inherent order. For instance, education 
 ### One Binary and One Continuous
 A variable that is a category with only two possible values. Examples of binary variables include gender (male/female) or any True/False or Yes/No variable.
 
-Relationships currently supports 8 different association functions for investigating the relationship between variables in the following cases:
+Relazioni currently supports 8 different association functions for investigating the relationship between variables in the following cases:
 
 1. Two Continuous and Covariates
    * Partial Correlation (R)
@@ -43,11 +43,14 @@ Relationships currently supports 8 different association functions for investiga
     scikit-learn
 
 ## Installation
-### Installing via Git
-    python -m pip install git+https://github.com/chicodelarosa/relationships.git
+### Installing via pip
+    pip install .
 
 ### Installing via setup.py
     python setup.py install
+
+### Installing via Git
+    python -m pip install git+https://github.com/chicodelarosa/relazioni.git
 
 ## Example
     import numpy as np
@@ -64,4 +67,4 @@ Relationships currently supports 8 different association functions for investiga
     print(matth_corr) # 0.5
 
 ## Call for Contributions
-The Relationships project welcomes your expertise and enthusiasm!
+The relazioni package welcomes your expertise and enthusiasm!
