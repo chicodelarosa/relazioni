@@ -284,7 +284,7 @@ def spearmans_corr(v1: np.ndarray, v2: np.ndarray) -> float:
 
 def pointbiserial_corr(v1: np.ndarray, v2: np.ndarray) -> float:
     """
-    Compute Spearman's rank correlation cofficient.
+    Compute point-biserial correlation cofficient.
 
     What is Point-Biserial Correlation?
     Point-biserial correlation is used to understand the strength of the relationship
